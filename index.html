@@ -1,1 +1,461 @@
+<!DOCTYPE html>
 
+<html lang="uk">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>GDE CASH</title>
+
+<style>
+
+*{
+
+margin:0;
+
+padding:0;
+
+box-sizing:border-box;
+
+font-family:Arial,sans-serif;
+
+}
+
+body{
+
+background:#111;
+
+color:#fff;
+
+}
+
+.container{
+
+max-width:650px;
+
+margin:auto;
+
+padding:20px;
+
+}
+
+.logo{
+
+text-align:center;
+
+font-size:34px;
+
+font-weight:bold;
+
+color:#d4af37;
+
+margin-bottom:25px;
+
+}
+
+.screen{
+
+display:none;
+
+}
+
+.screen.active{
+
+display:block;
+
+}
+
+.card{
+
+background:#1d1d1d;
+
+border-radius:18px;
+
+padding:18px;
+
+margin-bottom:18px;
+
+}
+
+.card h2{
+
+margin-bottom:15px;
+
+font-size:20px;
+
+color:#d4af37;
+
+}
+
+input{
+
+width:100%;
+
+padding:15px;
+
+font-size:18px;
+
+background:#2c2c2c;
+
+border:none;
+
+border-radius:12px;
+
+color:white;
+
+outline:none;
+
+margin-top:8px;
+
+}
+
+.shops{
+
+display:grid;
+
+grid-template-columns:1fr 1fr;
+
+gap:12px;
+
+margin-top:15px;
+
+}
+
+.shop{
+
+padding:15px;
+
+border:none;
+
+border-radius:12px;
+
+background:#2b2b2b;
+
+color:white;
+
+font-size:18px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+}
+
+.shop.active{
+
+background:#d4af37;
+
+color:#111;
+
+}
+
+.mainButton{
+
+width:100%;
+
+padding:18px;
+
+border:none;
+
+border-radius:14px;
+
+background:#d4af37;
+
+color:#111;
+
+font-size:20px;
+
+font-weight:bold;
+
+margin-top:20px;
+
+cursor:pointer;
+
+}
+.moneyRow{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+padding:12px 0;
+
+border-bottom:1px solid #333;
+
+}
+
+.moneyTitle{
+
+font-size:18px;
+
+font-weight:bold;
+
+}
+
+.counter{
+
+display:flex;
+
+align-items:center;
+
+gap:8px;
+
+}
+
+.counter button{
+
+width:42px;
+
+height:42px;
+
+border:none;
+
+border-radius:10px;
+
+background:#d4af37;
+
+font-size:22px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+}
+
+.counter input{
+
+width:60px;
+
+text-align:center;
+
+margin:0;
+
+padding:10px;
+
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="logo">
+
+💵 GDE CASH
+
+</div>
+
+<section
+
+id="screen1"
+
+class="screen active">
+
+<div class="card">
+
+<h2>👤 Продавець</h2>
+
+<input
+
+id="seller"
+
+placeholder="Введіть ім'я">
+
+</div>
+
+<div class="card">
+
+<h2>🏪 Магазин</h2>
+
+<div class="shops">
+
+<button class="shop active">Пролет</button>
+
+<button class="shop">ХГ</button>
+
+<button class="shop">Пушка</button>
+
+<button class="shop">Універ</button>
+
+<button class="shop">Чернівці</button>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>📋 Фактичний залишок</h2>
+
+<input
+
+id="cash1"
+
+type="number"
+
+placeholder="Каса 1">
+
+<input
+
+id="cash2"
+
+type="number"
+
+placeholder="Каса 2">
+
+</div>
+
+<button
+
+id="nextButton"
+
+class="mainButton">
+
+➡️ Далі
+
+</button>
+
+</section>
+
+<section
+
+id="screen2"
+
+class="screen">
+
+<div class="card">
+
+<h2>💵 Купюри</h2>
+
+<div id="moneyList"></div>
+
+</div>
+
+<button
+
+id="sendButton"
+
+class="mainButton">
+
+📨 Надіслати касу
+
+</button>
+
+</section>
+
+<script>
+
+const shops=document.querySelectorAll(".shop");
+
+shops.forEach(button=>{
+
+button.onclick=()=>{
+
+shops.forEach(item=>item.classList.remove("active"));
+
+button.classList.add("active");
+
+};
+
+});
+
+document.getElementById("nextButton").onclick=()=>{
+
+const seller=document.getElementById("seller").value.trim();
+
+const cash1=document.getElementById("cash1").value;
+
+const cash2=document.getElementById("cash2").value;
+
+if(!seller){
+
+alert("Введіть ім'я продавця");
+
+return;
+
+}
+
+if(cash1===""||cash2===""){
+
+alert("Заповніть Касу 1 та Касу 2");
+
+return;
+
+}
+
+document.getElementById("screen1").classList.remove("active");
+
+document.getElementById("screen2").classList.add("active");
+
+};
+const money=[1000,500,200,100,50,20,10,5,2,1,0.5];
+
+const moneyList=document.getElementById("moneyList");
+
+let counts={};
+
+money.forEach(value=>{
+
+counts[value]=0;
+
+moneyList.innerHTML+=`
+
+<div class="moneyRow">
+
+<div class="moneyTitle">
+
+${value>=1?value+" грн":"50 коп"}
+
+</div>
+
+<div class="counter">
+
+<button onclick="changeMoney(${value},-1)">-</button>
+
+<input
+
+id="m${value}"
+
+type="number"
+
+value="0"
+
+min="0"
+
+oninput="manualMoney(${value})">
+
+<button onclick="changeMoney(${value},1)">+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+function changeMoney(value,step){
+
+counts[value]=Math.max(0,counts[value]+step);
+
+document.getElementById("m"+value).value=counts[value];
+
+}
+
+function manualMoney(value){
+
+counts[value]=Number(document.getElementById("m"+value).value)||0;
+
+}
+</script>
+
+</body>
+
+</html>
