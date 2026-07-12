@@ -559,79 +559,7 @@ ${moneyTotal.toFixed(2)} грн
 ━━━━━━━━━━━━━━
 
 ${result}`;
-const seller=document.getElementById("seller").value.trim();
 
-const shop=document.querySelector(".shop.active").innerText;
-
-const cashTotal=getCashTotal();
-
-const moneyTotal=getMoneyTotal();
-
-const difference=moneyTotal-cashTotal;
-
-let report="";
-
-money.forEach(value=>{
-
-if(counts[value]>0){
-
-report+=`${value>=1?value+" грн":"50 коп"} × ${counts[value]}\n`;
-
-}
-
-});
-
-let result="";
-
-if(difference===0){
-
-result="✅ КАСА ЗІЙШЛАСЯ";
-
-}else if(difference>0){
-
-result=`🟢 Надлишок: ${difference.toFixed(2)} грн`;
-
-}else{
-
-result=`🔴 Недостача: ${Math.abs(difference).toFixed(2)} грн`;
-
-}
-
-const message=
-
-`💵 GDE CASH
-
-👤 Продавець
-
-${seller}
-
-🏪 Магазин
-
-${shop}
-
-━━━━━━━━━━━━━━
-
-📋 Фактичний залишок
-
-Каса 1: ${document.getElementById("cash1").value} грн
-
-Каса 2: ${document.getElementById("cash2").value} грн
-
-Разом: ${cashTotal.toFixed(2)} грн
-
-━━━━━━━━━━━━━━
-
-💵 Купюри
-
-${report}
-
-Разом купюрами:
-
-${moneyTotal.toFixed(2)} грн
-
-━━━━━━━━━━━━━━
-
-${result}`;
 
 await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`,{
 
