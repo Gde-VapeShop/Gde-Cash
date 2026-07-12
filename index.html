@@ -454,6 +454,222 @@ function manualMoney(value){
 counts[value]=Number(document.getElementById("m"+value).value)||0;
 
 }
+  function getMoneyTotal(){
+
+let total=0;
+
+money.forEach(value=>{
+
+total+=value*counts[value];
+
+});
+
+return total;
+
+}
+
+function getCashTotal(){
+
+const cash1=Number(document.getElementById("cash1").value)||0;
+
+const cash2=Number(document.getElementById("cash2").value)||0;
+
+return cash1+cash2;
+
+}
+  const TOKEN="СЮДА_ТОКЕН_БОТА";
+
+const CHAT_ID="СЮДА_CHAT_ID";
+
+document.getElementById("sendButton").onclick=async()=>{
+const seller=document.getElementById("seller").value.trim();
+
+const shop=document.querySelector(".shop.active").innerText;
+
+const cash1=Number(document.getElementById("cash1").value)||0;
+
+const cash2=Number(document.getElementById("cash2").value)||0;
+
+const cashTotal=cash1+cash2;
+
+const moneyTotal=getMoneyTotal();
+
+const difference=moneyTotal-cashTotal;
+  let report="";
+
+money.forEach(value=>{
+
+if(counts[value]>0){
+
+const title=value>=1?value+" грн":"50 коп";
+
+const sum=(value*counts[value]).toFixed(2);
+
+report+=`${title} × ${counts[value]} = ${sum} грн\n`;
+
+}
+
+});
+  let result="";
+
+if(difference===0){
+
+result="✅ КАСА ЗІЙШЛАСЯ";
+
+}else if(difference>0){
+
+result=`🟢 Надлишок: ${difference.toFixed(2)} грн`;
+
+}else{
+
+result=`🔴 Недостача: ${Math.abs(difference).toFixed(2)} грн`;
+
+}
+
+const message=`💵 GDE CASH
+
+👤 Продавець
+
+${seller}
+
+🏪 Магазин
+
+${shop}
+
+━━━━━━━━━━━━━━
+
+📋 Фактичний залишок
+
+Каса 1: ${cash1} грн
+
+Каса 2: ${cash2} грн
+
+Разом: ${cashTotal.toFixed(2)} грн
+
+━━━━━━━━━━━━━━
+
+💵 Купюри
+
+${report}
+
+Разом купюрами:
+
+${moneyTotal.toFixed(2)} грн
+
+━━━━━━━━━━━━━━
+
+${result}`;
+const seller=document.getElementById("seller").value.trim();
+
+const shop=document.querySelector(".shop.active").innerText;
+
+const cashTotal=getCashTotal();
+
+const moneyTotal=getMoneyTotal();
+
+const difference=moneyTotal-cashTotal;
+
+let report="";
+
+money.forEach(value=>{
+
+if(counts[value]>0){
+
+report+=`${value>=1?value+" грн":"50 коп"} × ${counts[value]}\n`;
+
+}
+
+});
+
+let result="";
+
+if(difference===0){
+
+result="✅ КАСА ЗІЙШЛАСЯ";
+
+}else if(difference>0){
+
+result=`🟢 Надлишок: ${difference.toFixed(2)} грн`;
+
+}else{
+
+result=`🔴 Недостача: ${Math.abs(difference).toFixed(2)} грн`;
+
+}
+
+const message=
+
+`💵 GDE CASH
+
+👤 Продавець
+
+${seller}
+
+🏪 Магазин
+
+${shop}
+
+━━━━━━━━━━━━━━
+
+📋 Фактичний залишок
+
+Каса 1: ${document.getElementById("cash1").value} грн
+
+Каса 2: ${document.getElementById("cash2").value} грн
+
+Разом: ${cashTotal.toFixed(2)} грн
+
+━━━━━━━━━━━━━━
+
+💵 Купюри
+
+${report}
+
+Разом купюрами:
+
+${moneyTotal.toFixed(2)} грн
+
+━━━━━━━━━━━━━━
+
+${result}`;
+
+await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`,{
+
+method:"POST",
+
+headers:{
+
+"Content-Type":"application/json"
+
+},
+
+body:JSON.stringify({
+
+chat_id:CHAT_ID,
+
+text:message
+
+})
+
+});
+
+alert("✅ Касу успішно відправлено");
+document.getElementById("cash1").value="";
+
+document.getElementById("cash2").value="";
+
+money.forEach(value=>{
+
+counts[value]=0;
+
+document.getElementById("m"+value).value=0;
+
+});
+
+document.getElementById("screen2").classList.remove("active");
+
+document.getElementById("screen1").classList.add("active");
+};
 </script>
 
 </body>
