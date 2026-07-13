@@ -569,9 +569,31 @@ const cashTotal=cash1+cash2;
 
 const moneyTotal=getMoneyTotal();
 
-const difference=moneyTotal-cashTotal;
-  let report="";
+let expenseTotal=0;
 
+document.querySelectorAll(".expenseValue").forEach(input=>{
+
+expenseTotal+=Number(input.value)||0;
+
+});
+
+const difference=(moneyTotal+expenseTotal)-cashTotal;
+  let report="";
+let expensesReport="";
+
+document.querySelectorAll(".expenseRow").forEach(row=>{
+
+const name=row.querySelector(".expenseName").value;
+
+const value=Number(row.querySelector(".expenseValue").value)||0;
+
+if(name||value){
+
+expensesReport+=`${name} — ${value} грн\n`;
+
+}
+
+});
 money.forEach(value=>{
 
 if(counts[value]>0){
@@ -613,7 +635,7 @@ ${shop}
 
 ━━━━━━━━━━━━━━
 
-📋 Фактичний залишок
+📋 Плановий залишок
 
 Каса 1: ${cash1} грн
 
@@ -622,7 +644,15 @@ ${shop}
 Разом: ${cashTotal.toFixed(2)} грн
 
 ━━━━━━━━━━━━━━
+➖ Витрати
 
+${expensesReport}
+
+Разом витрати:
+
+${expenseTotal.toFixed(2)} грн
+
+──────────────
 💵 Купюри
 
 ${report}
