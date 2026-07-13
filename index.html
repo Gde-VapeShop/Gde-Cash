@@ -238,6 +238,33 @@ margin:0;
 padding:10px;
 
 }
+  .expenseRow{
+
+display:flex;
+
+gap:10px;
+
+margin-top:12px;
+
+}
+
+.expenseRow input{
+
+margin:0;
+
+}
+
+.expenseRow input:first-child{
+
+flex:2;
+
+}
+
+.expenseRow input:last-child{
+
+flex:1;
+
+}
 </style>
 
 </head>
@@ -311,7 +338,23 @@ type="number"
 placeholder="Каса 2">
 
 </div>
+<div class="card">
 
+<h2>➖ Витрати</h2>
+
+<div id="expenses"></div>
+
+<button
+
+id="addExpense"
+
+class="mainButton">
+
+➕ Додати витрату
+
+</button>
+
+</div>
 <button
 
 id="nextButton"
@@ -480,7 +523,37 @@ return cash1+cash2;
   const TOKEN="8625777459:AAECzFk_rr6qFhNjoRRNbY3hPUZVnLpza7Y";
 
 const CHAT_ID="-1003936591067";
+let expenseIndex=0;
 
+document.getElementById("addExpense").onclick=()=>{
+
+expenseIndex++;
+
+document.getElementById("expenses").innerHTML+=`
+
+<div class="expenseRow">
+
+<input
+
+type="text"
+
+placeholder="За що"
+
+class="expenseName">
+
+<input
+
+type="number"
+
+placeholder="Сума"
+
+class="expenseValue">
+
+</div>
+
+`;
+
+};
 document.getElementById("sendButton").onclick=async()=>{
 const seller=document.getElementById("seller").value.trim();
 
