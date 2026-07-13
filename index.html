@@ -529,9 +529,11 @@ document.getElementById("addExpense").onclick=()=>{
 
 expenseIndex++;
 
-document.getElementById("expenses").innerHTML+=`
+const row=document.createElement("div");
 
-<div class="expenseRow">
+row.className="expenseRow";
+
+row.innerHTML=`
 
 <input
 
@@ -549,9 +551,9 @@ placeholder="Сума"
 
 class="expenseValue">
 
-</div>
-
 `;
+
+document.getElementById("expenses").appendChild(row);
 
 };
 document.getElementById("sendButton").onclick=async()=>{
