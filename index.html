@@ -378,7 +378,19 @@ class="screen">
 <h2>💵 Купюри</h2>
 
 <div id="moneyList"></div>
+<div style="margin-top:20px;">
 
+    <div class="moneyTitle">Розмін</div>
+
+    <input
+
+        id="changeMoney"
+
+        type="number"
+
+        placeholder="Сума розміну">
+
+</div>
 </div>
 <div class="card" id="liveResult">
 
@@ -456,7 +468,7 @@ document.getElementById("screen1").classList.remove("active");
 document.getElementById("screen2").classList.add("active");
 updateLiveResult();
 };
-const money=[1000,500,200,100,50,20,10,5,2,1,0.5];
+const money=[1000,500,200,100];
 
 const moneyList=document.getElementById("moneyList");
 
@@ -528,7 +540,7 @@ money.forEach(value=>{
 total+=value*counts[value];
 
 });
-
+total += Number(document.getElementById("changeMoney").value) || 0;
 return total;
 
 }
@@ -684,6 +696,11 @@ report+=`${title} × ${counts[value]} = ${sum} грн\n`;
 }
 
 });
+  const changeMoney =
+
+Number(document.getElementById("changeMoney").value)||0;
+
+report += `Розмін = ${changeMoney.toFixed(2)} грн\n`;
   let result="";
 
 if(difference===0){
@@ -769,7 +786,7 @@ alert("✅ Касу успішно відправлено");
 document.getElementById("cash1").value="";
 
 document.getElementById("cash2").value="";
-
+document.getElementById("changeMoney").value="";
 money.forEach(value=>{
 
 counts[value]=0;
