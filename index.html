@@ -623,7 +623,21 @@ document.getElementById("sendButton").onclick=async()=>{
 const seller=document.getElementById("seller").value.trim();
 
 const shop=document.querySelector(".shop.active").innerText;
+const threads={
 
+"ХГ":101,
+
+"Пролет":102,
+
+"Пушка":103,
+
+"Універ":104,
+
+"Чернівці":105
+
+};
+
+const threadId=threads[shop];
 const cash1=Number(document.getElementById("cash1").value)||0;
 
 const cash2=Number(document.getElementById("cash2").value)||0;
@@ -742,6 +756,8 @@ headers:{
 body:JSON.stringify({
 
 chat_id:CHAT_ID,
+
+message_thread_id:threadId,
 
 text:message
 
