@@ -380,7 +380,25 @@ class="screen">
 <div id="moneyList"></div>
 
 </div>
+<div class="card" id="liveResult">
 
+<h2>📊 Поточний результат</h2>
+
+<div id="moneyTotalText">
+
+💵 Купюрами: 0.00 грн
+
+</div>
+
+<br>
+
+<div id="differenceText">
+
+🔴 Недостача: 0.00 грн
+
+</div>
+
+</div>
 <button
 
 id="sendButton"
@@ -436,7 +454,7 @@ return;
 document.getElementById("screen1").classList.remove("active");
 
 document.getElementById("screen2").classList.add("active");
-
+updateLiveResult();
 };
 const money=[1000,500,200,100,50,20,10,5,2,1,0.5];
 
@@ -490,11 +508,15 @@ counts[value]=Math.max(0,counts[value]+step);
 
 document.getElementById("m"+value).value=counts[value];
 
+updateLiveResult();
+
 }
 
 function manualMoney(value){
 
 counts[value]=Number(document.getElementById("m"+value).value)||0;
+
+updateLiveResult();
 
 }
   function getMoneyTotal(){
@@ -518,6 +540,47 @@ const cash1=Number(document.getElementById("cash1").value)||0;
 const cash2=Number(document.getElementById("cash2").value)||0;
 
 return cash1+cash2;
+
+}
+  function updateLiveResult(){
+
+const moneyTotal=getMoneyTotal();
+
+let expenseTotal=0;
+
+document.querySelectorAll(".expenseValue").forEach(input=>{
+
+expenseTotal+=Number(input.value)||0;
+
+});
+
+const cashTotal=getCashTotal();
+
+const difference=(moneyTotal+expenseTotal)-cashTotal;
+
+document.getElementById("moneyTotalText").innerHTML=
+
+`💵 Купюрами: ${moneyTotal.toFixed(2)} грн`;
+
+if(difference===0){
+
+document.getElementById("differenceText").innerHTML=
+
+`✅ <b>КАСА ЗІЙШЛАСЯ</b>`;
+
+}else if(difference>0){
+
+document.getElementById("differenceText").innerHTML=
+
+`🟢 <b>Надлишок:</b> ${difference.toFixed(2)} грн`;
+
+}else{
+
+document.getElementById("differenceText").innerHTML=
+
+`🔴 <b>Недостача:</b> ${Math.abs(difference).toFixed(2)} грн`;
+
+}
 
 }
   const TOKEN="8625777459:AAECzFk_rr6qFhNjoRRNbY3hPUZVnLpza7Y";
